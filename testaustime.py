@@ -6,9 +6,9 @@ import time
 import os
 import threading
 
-PLUGIN_SETTINGS_KEY = "TestaustimeSettings"
-API_SETTINGS_KEY = "testaustime_api_key"
-ENDPOINT_SETTINGS_KEY = "testaustime_endpoint_url"
+PLUGIN_SETTINGS_KEY = "testaustime.sublime-settings"
+API_SETTINGS_KEY = "api_key"
+ENDPOINT_SETTINGS_KEY = "endpoint_url"
 
 last_heartbeat = time.time()
 can_show_missing_key_popup = True
@@ -33,11 +33,11 @@ class TestausTime:
 
     def save_api_key(self, api_key):
         self.settings.set(API_SETTINGS_KEY, api_key)
-        sublime.save_settings(API_SETTINGS_KEY)
+        sublime.save_settings(PLUGIN_SETTINGS_KEY)
 
     def save_endpoint_url(self, endpoint_url):
     	self.settings.set(ENDPOINT_SETTINGS_KEY, endpoint_url)
-    	sublime.save_settings(ENDPOINT_SETTINGS_KEY)
+    	sublime.save_settings(PLUGIN_SETTINGS_KEY)
 
     def get_api_key(self):
         key = self.settings.get(API_SETTINGS_KEY, None)
@@ -79,6 +79,8 @@ class ApiCredHandler(sublime_plugin.TextCommand):
 class get_project_name(sublime_plugin.TextCommand):
 	def run(self, edit):
 		get_current_project_name()
+
+
 
 
 class AsyncApiCall(threading.Thread):
