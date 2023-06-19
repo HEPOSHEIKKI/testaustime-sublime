@@ -1,0 +1,21 @@
+[
+  {
+    "id": "preferences",
+    "children": [
+      {
+        "caption": "Testaustime",
+        "id": "testaustime",
+        "children": [
+          {
+            "caption": "Set API key",
+            "command": "prompt_api_key"
+          },
+          {
+            "caption": "Set endpoint url",
+            "command": "prompt_url_endpoint"
+          }
+        ]
+      }
+    ]
+  }
+]
