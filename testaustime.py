@@ -48,9 +48,6 @@ class TestausTime:
     	endpoint = self.settings.get(ENDPOINT_SETTINGS_KEY, None)
     	if endpoint:
     		return str(endpoint)
-    	else:
-    		print("No endpoint url defined, this should have the value 'api.testaustime.fi' by default")
-    		print("Specify the endpoint from 'Preferences -> testaustime -> set endpoint url'")
 
 class prompt_api_key(sublime_plugin.WindowCommand):
     def run(self):
