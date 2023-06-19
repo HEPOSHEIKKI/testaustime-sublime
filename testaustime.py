@@ -83,28 +83,28 @@ class get_project_name(sublime_plugin.TextCommand):
 
 
 
-class AsyncApiCall(threading.Thread):
-	def __init__(self, timeout):
-		threading.Thread.__init__(self)
-	def run(self):
-		threads = []
-		err = ""
+def AsyncApiCall(self, timeout, endpoint, has_body):
+	threads = []
+	err = ""
 
-		try:
-			if assemble_data() and assemble_headers():
-				request = urllib.request.Request(TestausTime().get_endpoint_url() + '/activity/update', data=assemble_data(), headers=assemble_headers())
-				response = urllib.request.urlopen(request)
-				response_text = response.read().decode('utf-8')
-				return response_text
-		except (urllib.error.HTTPError) as e:
-			err = '%s: HTTP error %s contacting API' % (__name__, str(e.code))
-			print(err)
-		except (urllib.error.URLError) as e:
-		    err = '%s: URL error %s contacting API' % (__name__, str(e.reason))
-		    print(err)
-		self.result = False
-
-
+	try:
+		if assemble_data() and assemble_headers():
+			if has_body:
+				request = urllib.request.Request(TestausTime().get_endpoint_url() + endpoint, data=assemble_data(), headers=assemble_headers())
+			else:
+				request = urllib.request.Request(TestausTime().get_endpoint_url() + endpoint, headers=assemble_headers())
+			response = urllib.request.urlopen(request)
+			response_text = response.read().decode('utf-8')
+			print(response_text)
+			return response_text
+	except (urllib.error.HTTPError) as e:
+		err = '%s: HTTP error %s contacting API' % (__name__, str(e.code))
+		print(err)
+		sublime.message_dialog(err)
+	except (urllib.error.URLError) as e:
+	    err = '%s: URL error %s contacting API' % (__name__, str(e.reason))
+	    print(err)
+	    sublime.message_dialog(err)
 
 """
 FUNCTIONS
@@ -143,20 +143,18 @@ def assemble_headers():
 		}
 		return(headers)
 
-
 def get_user_data():
-	request = urllib.request.Request((url + '/users/@me'), headers=assemble_headers())
-	response = urllib.request.urlopen(request)
-	response_text = response.read().decode('utf-8')
-	print(response_text)
+	thread = threading.Thread(target=AsyncApiCall, args=(AsyncApiCall,5,'/users/@me', False))
+	thread.start()
+
 
 def heart_beat():
-	thread = AsyncApiCall(5)
+	thread = threading.Thread(target=AsyncApiCall, args=(AsyncApiCall,5,'/activity/update', True))
 	thread.start()
 
 def flush():
-	"""placeholder"""
-	print("Flush")
+	thread = threading.Thread(target=AsyncApiCall, args=(AsyncApiCall,5,'/activity/flush', True))
+	thread.start()
 
 class IdleHandler(sublime_plugin.EventListener):
 	def on_modified(view, event):
@@ -164,9 +162,10 @@ class IdleHandler(sublime_plugin.EventListener):
 		global last_heartbeat
 		now = time.time()
 		last_activity = now
-		if now - last_heartbeat > 30:
+		if now - last_heartbeat > 10:
 			sublime.set_timeout_async(heart_beat(), 0)
 			last_heartbeat = now
-			
-class get_user_data(sublime_plugin.TextCommand):
-	pass
+
+class ExitHandler(sublime_plugin.EventListener):
+	def on_exit():
+		pass
