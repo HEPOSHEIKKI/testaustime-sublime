@@ -10,8 +10,8 @@ Install testaustime-sublime by hand:
 
 ```
   git clone https://github.com/HEPOSHEIKKI/testaustime-sublime.git
-  zip -r testaustime.sublime-package testaustime-sublime
-  mv testaustime.sublime-package ~/.config/sublime-text/Packages/
+  zip testaustime.sublime-package testaustime-sublime/* -
+  mv testaustime.sublime-package ~/.config/sublime-text/Installed\ Packages/
 ```
 
 #### Note
