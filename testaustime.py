@@ -14,7 +14,6 @@ last_heartbeat = time.time()
 can_show_missing_key_popup = True
 
 
-
 class TestausTime:
     def __init__(self):
         self.settings = sublime.load_settings(PLUGIN_SETTINGS_KEY)
@@ -95,7 +94,6 @@ def AsyncApiCall(self, timeout, endpoint, has_body):
 				request = urllib.request.Request(TestausTime().get_endpoint_url() + endpoint, headers=assemble_headers())
 			response = urllib.request.urlopen(request)
 			response_text = response.read().decode('utf-8')
-			print(response_text)
 			return response_text
 	except (urllib.error.HTTPError) as e:
 		err = '%s: HTTP error %s contacting API' % (__name__, str(e.code))
@@ -167,5 +165,5 @@ class IdleHandler(sublime_plugin.EventListener):
 			last_heartbeat = now
 
 class ExitHandler(sublime_plugin.EventListener):
-	def on_exit():
-		pass
+	def on_pre_close(self, view):
+		flush()
