@@ -14,6 +14,12 @@ last_heartbeat = time.time()
 can_show_missing_key_popup = True
 
 
+if TestausTime().get_api_key():
+	sublime.status_message("	testaustime is ready.  happy coding")
+else:
+	sublime.status_message("	testaustime API token not set")
+
+
 class TestausTime:
     def __init__(self):
         self.settings = sublime.load_settings(PLUGIN_SETTINGS_KEY)
@@ -145,7 +151,6 @@ def get_user_data():
 	thread = threading.Thread(target=AsyncApiCall, args=(AsyncApiCall,5,'/users/@me', False))
 	thread.start()
 
-
 def heart_beat():
 	thread = threading.Thread(target=AsyncApiCall, args=(AsyncApiCall,5,'/activity/update', True))
 	thread.start()
@@ -160,10 +165,11 @@ class IdleHandler(sublime_plugin.EventListener):
 		global last_heartbeat
 		now = time.time()
 		last_activity = now
-		if now - last_heartbeat > 10:
+		if now - last_heartbeat > 30:
 			sublime.set_timeout_async(heart_beat(), 0)
 			last_heartbeat = now
 
 class ExitHandler(sublime_plugin.EventListener):
 	def on_pre_close(self, view):
 		flush()
+
