@@ -6,7 +6,7 @@ This is an extension for Sublime Text that allows you to track your time spent c
 
 ## Installation
 
-Install testaustime-sublime by hand:
+Install testaustime-sublime by hand on Linux:
 
 ```
   git clone https://github.com/HEPOSHEIKKI/testaustime-sublime.git
