@@ -10,7 +10,7 @@ PLUGIN_SETTINGS_KEY = "testaustime.sublime-settings"
 API_SETTINGS_KEY = "api_key"
 ENDPOINT_SETTINGS_KEY = "endpoint_url"
 
-last_heartbeat = time.time()
+last_heartbeat = 0.0
 can_show_missing_key_popup = True
 
 
