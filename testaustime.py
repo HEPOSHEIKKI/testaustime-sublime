@@ -14,7 +14,7 @@ ENDPOINT_SETTINGS_KEY = "endpoint_url"
 last_heartbeat = 0.0
 can_show_missing_key_popup = True
 
-class testaustime:
+class Testaustime:
     def __init__(self):
         self.settings = sublime.load_settings(PLUGIN_SETTINGS_KEY)
 
