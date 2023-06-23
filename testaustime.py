@@ -14,12 +14,6 @@ last_heartbeat = time.time()
 can_show_missing_key_popup = True
 
 
-if TestausTime().get_api_key():
-	sublime.status_message("	testaustime is ready.  happy coding")
-else:
-	sublime.status_message("	testaustime API token not set")
-
-
 class TestausTime:
     def __init__(self):
         self.settings = sublime.load_settings(PLUGIN_SETTINGS_KEY)
@@ -53,6 +47,11 @@ class TestausTime:
     	endpoint = self.settings.get(ENDPOINT_SETTINGS_KEY, None)
     	if endpoint:
     		return str(endpoint)
+
+if TestausTime().get_api_key():
+	sublime.status_message("	testaustime is ready.  happy coding")
+else:
+	sublime.status_message("	testaustime API token not set")
 
 class prompt_api_key(sublime_plugin.WindowCommand):
     def run(self):
