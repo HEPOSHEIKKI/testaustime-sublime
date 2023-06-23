@@ -14,7 +14,8 @@ last_heartbeat = time.time()
 can_show_missing_key_popup = True
 
 
-class TestausTime:
+
+class testaustime:
     def __init__(self):
         self.settings = sublime.load_settings(PLUGIN_SETTINGS_KEY)
         if not self.get_endpoint_url():
@@ -48,7 +49,7 @@ class TestausTime:
     	if endpoint:
     		return str(endpoint)
 
-if TestausTime().get_api_key():
+if testaustime().get_api_key():
 	sublime.status_message("	testaustime is ready.  happy coding")
 else:
 	sublime.status_message("	testaustime API token not set")
@@ -59,7 +60,7 @@ class prompt_api_key(sublime_plugin.WindowCommand):
 
     def _on_input_done(self, user_input):
         sublime.message_dialog("API key set")
-        TestausTime().save_api_key(user_input)
+        testaustime().save_api_key(user_input)
 
 	
 
@@ -73,12 +74,12 @@ class prompt_url_endpoint(sublime_plugin.WindowCommand):
 			user_input = "https://" + user_input
 		if user_input.endswith("/"):
 			user_input = user_input[:-1]
-		TestausTime().save_endpoint_url(user_input)
+		testaustime().save_endpoint_url(user_input)
 
 class ApiCredHandler(sublime_plugin.TextCommand):
     def retrieve_api_key(self, edit):
         api_key = prompt_api_key()
-        TestausTime.save_api_key(api_key)
+        testaustime.save_api_key(api_key)
 
 class get_project_name(sublime_plugin.TextCommand):
 	def run(self, edit):
@@ -94,9 +95,9 @@ def AsyncApiCall(self, timeout, endpoint, has_body):
 	try:
 		if assemble_data() and assemble_headers():
 			if has_body:
-				request = urllib.request.Request(TestausTime().get_endpoint_url() + endpoint, data=assemble_data(), headers=assemble_headers())
+				request = urllib.request.Request(testaustime().get_endpoint_url() + endpoint, data=assemble_data(), headers=assemble_headers())
 			else:
-				request = urllib.request.Request(TestausTime().get_endpoint_url() + endpoint, headers=assemble_headers())
+				request = urllib.request.Request(testaustime().get_endpoint_url() + endpoint, headers=assemble_headers())
 			response = urllib.request.urlopen(request)
 			response_text = response.read().decode('utf-8')
 			return response_text
@@ -139,10 +140,10 @@ def assemble_data():
 	return data
 
 def assemble_headers():
-	if TestausTime().get_api_key():
+	if testaustime().get_api_key():
 		headers = {
 	    'Content-Type': 'application/json',
-	    'Authorization': 'Bearer ' + TestausTime().get_api_key(),
+	    'Authorization': 'Bearer ' + testaustime().get_api_key(),
 		}
 		return(headers)
 
