@@ -5,6 +5,7 @@ import json
 import time
 import os
 import threading
+import subprocess
 
 PLUGIN_SETTINGS_KEY = "testaustime.sublime-settings"
 API_SETTINGS_KEY = "api_key"
@@ -121,13 +122,30 @@ def get_current_syntax():
 	return syntax
 
 def show_project():
-	view = sublime.active_window().active_view()
-	if view.window() is None:
-		return 'None'
-	project_file = view.window ().project_file_name ()
-	if project_file is not None:
-		project_name = os.path.splitext (os.path.basename (project_file))[0]
-		return project_name
+    view = sublime.active_window().active_view()
+    if view.window() is None:
+        return
+
+    project_file = view.window().project_file_name()
+    if project_file is not None:
+        project_name = os.path.splitext(os.path.basename(project_file))[0]
+        return project_name
+
+    filename = view.file_name()
+
+    if filename is None:
+        return
+
+    git_project = git_root(filename)
+    if len(git_project) > 0:
+        return git_project
+
+def git_root(file):
+    proc = subprocess.Popen(["git", "rev-parse", "--show-toplevel"], cwd=os.path.dirname(file), stdout=subprocess.PIPE)
+    proc.wait()
+
+    repo = proc.stdout.read()
+    return str(os.path.basename(repo))
 
 def assemble_data():
 	data = {
