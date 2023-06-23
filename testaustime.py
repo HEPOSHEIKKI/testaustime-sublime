@@ -142,7 +142,7 @@ def show_project():
     if len(git_project) > 0:
         return str(os.path.basename(git_project))
 
-    return str(os.path.dirname(filename))
+    return str(os.path.basename(os.path.dirname(filename)))
 
 def git_root(file):
     proc = subprocess.Popen(["git", "rev-parse", "--show-toplevel"], cwd=os.path.dirname(file), stdout=subprocess.PIPE)
