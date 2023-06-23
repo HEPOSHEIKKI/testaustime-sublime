@@ -140,21 +140,23 @@ def show_project():
 
     git_project = git_root(filename)
     if len(git_project) > 0:
-        return git_project
+        return str(os.path.basename(git_project))
+
+    return str(os.path.dirname(filename))
 
 def git_root(file):
     proc = subprocess.Popen(["git", "rev-parse", "--show-toplevel"], cwd=os.path.dirname(file), stdout=subprocess.PIPE)
     proc.wait()
 
-    repo = proc.stdout.read()
-    return str(os.path.basename(repo))
+    repo = proc.stdout.read().split(b"\n")[0]
+    return os.path.basename(repo)
 
 def assemble_data():
     data = {
         'language': get_current_syntax(),
         'hostname': os.uname()[1],
         'editor_name': 'SublimeText',
-        'project_name': str(show_project())
+        'project_name': show_project()
     }
 
     data = json.dumps(data).encode('utf-8')
