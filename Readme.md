@@ -13,6 +13,7 @@ Install testaustime-sublime by hand on Linux:
   zip testaustime.sublime-package testaustime-sublime/* -
   mv testaustime.sublime-package ~/.config/sublime-text/Installed\ Packages/
 ```
+There is a pre-packaged version of the plugin bundled with each release, if downloaded this way, please skip the two first steps of the installation process.
 
 #### Note
 
