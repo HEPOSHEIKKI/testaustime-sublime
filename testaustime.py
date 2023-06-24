@@ -52,9 +52,29 @@ class Testaustime:
             return str(endpoint)
 
 if Testaustime().get_api_key():
-	sublime.status_message("	testaustime is ready.  happy coding")
+    sublime.status_message("    Testaustime is ready.  happy coding")
 else:
-	sublime.status_message("	testaustime API token not set")
+    sublime.status_message("    Testaustime API token not set")
+
+def startupMessage():
+    time.sleep(0.5)
+    if Testaustime().get_api_key():
+            sublime.status_message("    Testaustime is ready.  happy coding")
+    else:
+        print(Testaustime().get_api_key())
+        sublime.status_message("    Testaustime API token not set")
+
+"""
+This is kinda stupid (I think?) but we have to wait for one second before showing the user the greeter.
+This has to be done, because the settings storage where we store our API key, is initialized only after all plugins have been loaded.
+Because of this the user will get the message "Testaustime API token not set" every time.
+I know 0.5 seconds is A LOT in computer time, but if we thread the code it shoudln't be an issue.
+"""
+
+
+waitForSettings = threading.Thread(target=startupMessage)
+waitForSettings.start()
+
 
 class prompt_api_key(sublime_plugin.WindowCommand):
     def run(self):
@@ -196,6 +216,6 @@ class IdleHandler(sublime_plugin.EventListener):
             last_heartbeat = now
 
 class ExitHandler(sublime_plugin.EventListener):
-	def on_pre_close(self, view):
-		flush()
+    def on_pre_close(self, view):
+        flush()
 
