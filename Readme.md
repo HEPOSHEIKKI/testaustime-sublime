@@ -17,4 +17,4 @@ There is a pre-packaged version of the plugin bundled with each release, if down
 
 #### Note
 
-This is still a work in progress and my ~3rd time coding in python so all kinds of constructive critisism and [PR](https://github.com/HEPOSHEIKKI/testaustime-sublime/compare)'s are welcome.
+[Issues](https://github.com/Testaustime/testaustime-sublime/issues/new) and [PR](https://github.com/Testaustime/testaustime-sublime/compare)'s are welcome.
