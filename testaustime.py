@@ -168,7 +168,7 @@ def git_root(file):
     proc = subprocess.Popen(["git", "rev-parse", "--show-toplevel"], cwd=os.path.dirname(file), stdout=subprocess.PIPE)
     proc.wait()
 
-    repo = proc.stdout.read().split(b"\n")[0]
+    repo = proc.stdout.read().split(b"\n")[0].decode('utf-8')
     return os.path.basename(repo)
 
 def assemble_data():
